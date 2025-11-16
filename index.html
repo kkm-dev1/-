@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>원숭이 족치기 게임</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="game-container">
+        <!-- 게임 헤더 -->
+        <header class="game-header">
+            <div class="money-display">
+                <span class="money-icon">💰</span>
+                <span id="money">0</span>
+            </div>
+            <div class="damage-display">
+                데미지: <span id="damage">1</span>
+            </div>
+            <div class="combo-display">
+                콤보: <span id="combo">0</span>
+            </div>
+            <div class="multiplier-display" id="multiplier-display" style="display: none;">
+                <span class="multiplier-text">🔥 1.5배 보너스! 🔥</span>
+                <span id="multiplier-timer">15</span>초
+            </div>
+        </header>
+
+        <!-- 메인 게임 영역 -->
+        <main class="game-main">
+            <!-- 원숭이 영역 -->
+            <div class="monkey-container">
+                <div id="monkey" class="monkey">
+                    🐵
+                </div>
+                <div id="damage-text" class="damage-text"></div>
+            </div>
+
+            <!-- 도구 선택 영역 -->
+            <div class="tools-section">
+                <h2>도구 선택</h2>
+                <div id="tools-list" class="tools-list">
+                    <!-- JavaScript로 동적으로 생성 -->
+                </div>
+            </div>
+        </main>
+
+        <!-- 상점 탭 -->
+        <aside class="shop-section" id="shop-section">
+            <div class="shop-header">
+                <h2>🏪 상점</h2>
+                <button id="close-shop" class="close-btn">✕</button>
+            </div>
+            <div id="shop-items" class="shop-items">
+                <!-- JavaScript로 동적으로 생성 -->
+            </div>
+        </aside>
+
+        <!-- 상점 열기 버튼 -->
+        <button id="open-shop" class="shop-btn">🏪 상점 열기</button>
+
+        <!-- 획득 돈 표시 -->
+        <div id="earned-popup" class="earned-popup"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
