@@ -21,42 +21,48 @@ game_data = {
             'damage': 1,
             'price': 0,
             'owned': True,
-            'icon': '👊'
+            'icon': '👊',  # fallback 이모지
+            'image': 'fist.png'  # 이미지 파일명
         },
         'stick': {
             'name': '나무 막대기',
             'damage': 5,
             'price': 50,
             'owned': False,
-            'icon': '🪵'
+            'icon': '🪵',
+            'image': 'stick.png'
         },
         'bat': {
             'name': '야구 방망이',
             'damage': 15,
             'price': 200,
             'owned': False,
-            'icon': '🏏'
+            'icon': '🏏',
+            'image': 'bat.png'
         },
         'hammer': {
             'name': '망치',
             'damage': 50,
             'price': 1000,
             'owned': False,
-            'icon': '🔨'
+            'icon': '🔨',
+            'image': 'hammer.png'
         },
         'sword': {
             'name': '검',
             'damage': 200,
             'price': 5000,
             'owned': False,
-            'icon': '⚔️'
+            'icon': '⚔️',
+            'image': 'sword.png'
         },
         'axe': {
             'name': '도끼',
             'damage': 1000,
             'price': 25000,
             'owned': False,
-            'icon': '🪓'
+            'icon': '🪓',
+            'image': 'axe.png'
         }
     }
 }
