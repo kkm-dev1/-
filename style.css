@@ -38,6 +38,16 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     animation: title-glow 3s ease-in-out infinite;
     letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.title-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
 }
 
 .game-subtitle {
@@ -140,6 +150,13 @@ body {
     transition: all 0.2s;
 }
 
+.monkey-face img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    display: block;
+}
+
 .monkey:hover .monkey-face {
     transform: scale(1.1);
 }
@@ -162,6 +179,12 @@ body {
     pointer-events: none;
 }
 
+.expression-image {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
 .particles-container {
     position: absolute;
     top: 0;
@@ -178,6 +201,12 @@ body {
     pointer-events: none;
     animation: particle-float 1s ease-out forwards;
     opacity: 0;
+}
+
+.particle-img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
 }
 
 @keyframes expression-pop {
@@ -294,6 +323,9 @@ body {
 
 .tool-icon {
     font-size: 32px;
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
 }
 
 .tool-info {
@@ -410,6 +442,9 @@ body {
 
 .shop-item-icon {
     font-size: 48px;
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
 }
 
 .shop-item-info {
@@ -534,6 +569,20 @@ body {
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.inline-icon {
+    width: 1em;
+    height: 1em;
+    object-fit: contain;
+    vertical-align: middle;
+    display: inline-block;
 }
 
 .header-btn:hover {
@@ -707,6 +756,16 @@ body {
 .achievement-icon {
     font-size: 48px;
     margin-bottom: 10px;
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    margin: 0 auto 10px;
+}
+
+.achievement-icon img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
 }
 
 .achievement-name {
