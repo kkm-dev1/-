@@ -22,20 +22,27 @@ let gameState = {
 
 // 업적 정의
 const achievements = [
-    { id: 'first_click', name: '첫 클릭', desc: '원숭이를 처음 클릭하세요', icon: '👆', condition: () => gameState.totalClicks >= 1 },
-    { id: 'hundred_clicks', name: '열심히 때리기', desc: '100번 클릭하세요', icon: '💪', condition: () => gameState.totalClicks >= 100 },
-    { id: 'thousand_clicks', name: '클릭 마스터', desc: '1,000번 클릭하세요', icon: '👑', condition: () => gameState.totalClicks >= 1000 },
-    { id: 'first_money', name: '첫 수입', desc: '돈 10원 획득', icon: '💰', condition: () => gameState.totalMoneyEarned >= 10 },
-    { id: 'hundred_money', name: '부자되기', desc: '총 100원 획득', icon: '💵', condition: () => gameState.totalMoneyEarned >= 100 },
-    { id: 'thousand_money', name: '대부호', desc: '총 1,000원 획득', icon: '💎', condition: () => gameState.totalMoneyEarned >= 1000 },
-    { id: 'first_combo', name: '콤보 시작', desc: '20콤보 달성', icon: '🔥', condition: () => gameState.combo >= 20 },
-    { id: 'first_tool', name: '첫 구매', desc: '첫 도구 구매', icon: '🛒', condition: () => {
+    { id: 'first_click', name: '첫 클릭', desc: '원숭이를 처음 클릭하세요', icon: '👆', image: 'achievement_click.png', condition: () => gameState.totalClicks >= 1 },
+    { id: 'hundred_clicks', name: '열심히 때리기', desc: '100번 클릭하세요', icon: '💪', image: 'achievement_100clicks.png', condition: () => gameState.totalClicks >= 100 },
+    { id: 'thousand_clicks', name: '클릭 마스터', desc: '1,000번 클릭하세요', icon: '👑', image: 'achievement_1000clicks.png', condition: () => gameState.totalClicks >= 1000 },
+    { id: 'first_money', name: '첫 수입', desc: '돈 10원 획득', icon: '💰', image: 'achievement_money.png', condition: () => gameState.totalMoneyEarned >= 10 },
+    { id: 'hundred_money', name: '부자되기', desc: '총 100원 획득', icon: '💵', image: 'achievement_rich.png', condition: () => gameState.totalMoneyEarned >= 100 },
+    { id: 'thousand_money', name: '대부호', desc: '총 1,000원 획득', icon: '💎', image: 'achievement_wealthy.png', condition: () => gameState.totalMoneyEarned >= 1000 },
+    { id: 'first_combo', name: '콤보 시작', desc: '20콤보 달성', icon: '🔥', image: 'achievement_combo.png', condition: () => gameState.combo >= 20 },
+    { id: 'first_tool', name: '첫 구매', desc: '첫 도구 구매', icon: '🛒', image: 'achievement_purchase.png', condition: () => {
         return Object.values(gameState.tools).some(tool => tool.owned && tool.price > 0);
     }},
-    { id: 'all_tools', name: '도구 수집가', desc: '모든 도구 구매', icon: '🏆', condition: () => {
+    { id: 'all_tools', name: '도구 수집가', desc: '모든 도구 구매', icon: '🏆', image: 'achievement_collector.png', condition: () => {
         return Object.values(gameState.tools).every(tool => tool.owned);
     }}
 ];
+
+/**
+ * 이미지 태그 생성 헬퍼 함수 (fallback 이모지 포함)
+ */
+function createImageTag(imagePath, altEmoji, className = '') {
+    return `<img src="/static/images/${imagePath}" alt="${altEmoji}" class="${className}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline'"><span style="display:none">${altEmoji}</span>`;
+}
 
 // DOM 요소들
 const monkeyElement = document.getElementById('monkey');
@@ -155,8 +162,11 @@ function renderTools() {
         
         const toolItem = document.createElement('div');
         toolItem.className = `tool-item ${toolId === gameState.currentTool ? 'active' : ''}`;
+        
+        const iconHtml = tool.image ? createImageTag(tool.image, tool.icon, 'tool-icon') : `<span class="tool-icon">${tool.icon}</span>`;
+        
         toolItem.innerHTML = `
-            <span class="tool-icon">${tool.icon}</span>
+            ${iconHtml}
             <div class="tool-info">
                 <div class="tool-name">${tool.name}</div>
                 <div class="tool-damage">데미지: ${formatNumber(tool.damage)}</div>
@@ -344,10 +354,16 @@ function loadGameFromStorage() {
  * 원숭이 표정 표시
  */
 function showMonkeyExpression() {
-    const expressions = ['😵', '😠', '😤', '💢', '👊'];
+    const expressions = [
+        { emoji: '😵', image: 'expression_dizzy.png' },
+        { emoji: '😠', image: 'expression_angry.png' },
+        { emoji: '😤', image: 'expression_huff.png' },
+        { emoji: '💢', image: 'expression_rage.png' },
+        { emoji: '👊', image: 'expression_punch.png' }
+    ];
     const randomExpression = expressions[Math.floor(Math.random() * expressions.length)];
     
-    monkeyExpressionElement.textContent = randomExpression;
+    monkeyExpressionElement.innerHTML = createImageTag(randomExpression.image, randomExpression.emoji, 'expression-image');
     monkeyExpressionElement.style.display = 'block';
     
     setTimeout(() => {
@@ -359,14 +375,22 @@ function showMonkeyExpression() {
  * 파티클 효과 생성
  */
 function createParticles() {
-    const particles = ['💰', '✨', '⭐', '💫', '🌟'];
+    const particles = [
+        { emoji: '💰', image: 'particle_money.png' },
+        { emoji: '✨', image: 'particle_sparkle.png' },
+        { emoji: '⭐', image: 'particle_star.png' },
+        { emoji: '💫', image: 'particle_dizzy.png' },
+        { emoji: '🌟', image: 'particle_star2.png' }
+    ];
     const particleCount = 8;
     
     for (let i = 0; i < particleCount; i++) {
         setTimeout(() => {
             const particle = document.createElement('div');
             particle.className = 'particle';
-            particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+            
+            const randomParticle = particles[Math.floor(Math.random() * particles.length)];
+            particle.innerHTML = createImageTag(randomParticle.image, randomParticle.emoji, 'particle-img');
             
             // 랜덤 위치 (원숭이 중심 기준)
             const angle = (Math.PI * 2 * i) / particleCount;
@@ -471,12 +495,15 @@ function renderShop() {
         
         const canAfford = gameState.money >= tool.price;
         
+        const iconHtml = tool.image ? createImageTag(tool.image, tool.icon, 'shop-item-icon') : `<span class="shop-item-icon">${tool.icon}</span>`;
+        const moneyIconHtml = createImageTag('money.png', '💰', 'inline-icon');
+        
         shopItem.innerHTML = `
-            <span class="shop-item-icon">${tool.icon}</span>
+            ${iconHtml}
             <div class="shop-item-info">
                 <div class="shop-item-name">${tool.name}</div>
                 <div class="shop-item-details">데미지: ${formatNumber(tool.damage)}</div>
-                <div class="shop-item-price">💰 ${formatNumber(tool.price)}원</div>
+                <div class="shop-item-price">${moneyIconHtml} ${formatNumber(tool.price)}원</div>
             </div>
             <button class="buy-btn" ${tool.owned ? 'disabled' : ''} ${!canAfford && !tool.owned ? 'disabled' : ''}>
                 ${tool.owned ? '보유중' : '구매'}
@@ -577,11 +604,14 @@ function renderAchievements() {
         const achievementItem = document.createElement('div');
         achievementItem.className = `achievement-item ${unlocked ? 'unlocked' : 'locked'}`;
         
+        const iconHtml = achievement.image ? createImageTag(achievement.image, achievement.icon, 'achievement-icon') : `<div class="achievement-icon">${achievement.icon}</div>`;
+        const checkmarkHtml = createImageTag('checkmark.png', '✅', 'inline-icon');
+        
         achievementItem.innerHTML = `
-            <div class="achievement-icon">${achievement.icon}</div>
+            ${iconHtml}
             <div class="achievement-name">${achievement.name}</div>
             <div class="achievement-desc">${achievement.desc}</div>
-            ${unlocked ? '<div class="achievement-progress">✅ 달성!</div>' : ''}
+            ${unlocked ? `<div class="achievement-progress">${checkmarkHtml} 달성!</div>` : ''}
         `;
         
         achievementsListElement.appendChild(achievementItem);
@@ -715,15 +745,26 @@ function setupEventListeners() {
         soundEnabled = !soundEnabled;
         gameState.soundEnabled = soundEnabled;
         
+        const soundIcon = soundToggleBtn.querySelector('#sound-icon') || soundToggleBtn.querySelector('img');
+        const soundSpan = soundToggleBtn.querySelector('span');
+        
         if (soundEnabled) {
             soundToggleBtn.classList.add('sound-on');
             soundToggleBtn.classList.remove('sound-off');
-            soundToggleBtn.textContent = '🔊';
+            if (soundIcon) {
+                soundIcon.src = '/static/images/sound-on.png';
+                soundIcon.alt = '🔊';
+            }
+            if (soundSpan) soundSpan.textContent = '🔊';
             soundToggleBtn.title = '사운드 끄기';
         } else {
             soundToggleBtn.classList.add('sound-off');
             soundToggleBtn.classList.remove('sound-on');
-            soundToggleBtn.textContent = '🔇';
+            if (soundIcon) {
+                soundIcon.src = '/static/images/sound-off.png';
+                soundIcon.alt = '🔇';
+            }
+            if (soundSpan) soundSpan.textContent = '🔇';
             soundToggleBtn.title = '사운드 켜기';
         }
         
@@ -739,7 +780,13 @@ function setupEventListeners() {
     if (!soundEnabled) {
         soundToggleBtn.classList.add('sound-off');
         soundToggleBtn.classList.remove('sound-on');
-        soundToggleBtn.textContent = '🔇';
+        const soundIcon = soundToggleBtn.querySelector('#sound-icon') || soundToggleBtn.querySelector('img');
+        const soundSpan = soundToggleBtn.querySelector('span');
+        if (soundIcon) {
+            soundIcon.src = '/static/images/sound-off.png';
+            soundIcon.alt = '🔇';
+        }
+        if (soundSpan) soundSpan.textContent = '🔇';
         soundToggleBtn.title = '사운드 켜기';
     }
 }
